@@ -23,6 +23,20 @@ class Registr_Serializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"password": "password is not match"})
         return attrs
     
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Emial is already register")
+        return value
+
+    
+    
+
+    
+
+
+
+
     def create(self, validated_data):
         user= User.objects.create(
             username= validated_data['username'],

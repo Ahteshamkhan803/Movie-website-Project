@@ -93,7 +93,7 @@ class Movies_model(models.Model):
     
 
     def __str__(self):
-        return self.Movie_Name
+        return f" {self.Movie_Name} {self.Movie_Platform.Name_Platform}"
 
 
 

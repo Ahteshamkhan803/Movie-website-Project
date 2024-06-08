@@ -24,6 +24,7 @@ class Platform_serializer(serializers.ModelSerializer):
 
 class Movie_serializer(serializers.ModelSerializer):
     Review= Review_serializer(source='Name_of_movie',many=True)
+    platform_name= serializers.CharField(source='Movie_Platform.Name_Platform',read_only=True)
     class Meta:
         model= Movies_model
         fields= '__all__' 
