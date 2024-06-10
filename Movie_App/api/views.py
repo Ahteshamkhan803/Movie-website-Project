@@ -7,7 +7,7 @@ from Movie_App.api.permission import IsOwnerOrSuperuserOrReadOnly
 # from rest_framework.exceptions import ValidationError
 from django_filters.rest_framework import DjangoFilterBackend 
 from Movie_App.api.filters import Movies_Filter
-# from Movie_App.api.pagination import Custompagination
+from Movie_App.api.pagination import CustomPagination
 from django.http import FileResponse, Http404
 from rest_framework.views import APIView
 import logging
@@ -29,7 +29,7 @@ class movies_view(generics.ListCreateAPIView):
     permission_classes=[AllowAny]   #,IsAdminorReadonly
     filter_backends=[DjangoFilterBackend]
     filterset_class = Movies_Filter
-    # pagination_class= Custompagination
+    pagination_class= CustomPagination
 
 
 
