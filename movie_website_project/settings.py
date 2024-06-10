@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'User_Auth_App',
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_filters',
     
 ]
 

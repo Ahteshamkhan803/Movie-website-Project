@@ -3,10 +3,10 @@ from Movie_App.models import Movies_model, Platforms_model,Review_Model
 from Movie_App.api.serializers import Movies_Serializer,Platforms_Serializer,Review_Serializer
 from rest_framework import generics,viewsets
 from rest_framework.permissions import AllowAny,IsAuthenticated,IsAdminUser
-# from Movie_App.api.permission import IsOwnerOrReadOnly,IsAdminorReadonly
+from Movie_App.api.permission import IsOwnerOrSuperuserOrReadOnly
 # from rest_framework.exceptions import ValidationError
 from django_filters.rest_framework import DjangoFilterBackend 
-# from .filters import MovieFilter
+from Movie_App.api.filters import Movies_Filter
 # from Movie_App.api.pagination import Custompagination
 from django.http import FileResponse, Http404
 from rest_framework.views import APIView
@@ -26,9 +26,9 @@ class Platform_view(generics.ListCreateAPIView):
 class movies_view(generics.ListCreateAPIView):
     queryset= Movies_model.objects.all()
     serializer_class= Movies_Serializer
-    permission_classes=[IsAuthenticated]   #,IsAdminorReadonly
+    permission_classes=[AllowAny]   #,IsAdminorReadonly
     filter_backends=[DjangoFilterBackend]
-    # filterset_class = MovieFilter
+    filterset_class = Movies_Filter
     # pagination_class= Custompagination
 
 
@@ -36,7 +36,7 @@ class movies_view(generics.ListCreateAPIView):
 class Movies_Details_view(generics.RetrieveUpdateDestroyAPIView):
     queryset= Movies_model.objects.all()
     serializer_class= Movies_Serializer
-    permission_classes=[IsAuthenticated,]  #IsAdminorReadonly
+    permission_classes=[IsAuthenticated] 
     # lookup_field= 'pk'
 
 
@@ -45,7 +45,7 @@ class Movies_Details_view(generics.RetrieveUpdateDestroyAPIView):
 class Review_View(viewsets.ModelViewSet):
     queryset = Review_Model.objects.all()
     serializer_class = Review_Serializer
-    permission_classes = [IsAuthenticated,]  # IsOwnerOrReadOnly
+    permission_classes = [IsAuthenticated,IsOwnerOrSuperuserOrReadOnly]  
 
 
 
