@@ -13,7 +13,7 @@ admin.site.register(Movies_model,Movie_Admin)
 
 
 class review_Admin(admin.ModelAdmin):
-    list_display= ['id','user','Review_Text','Created_At']
+    list_display= ['id','user','Review_Text','Created_At','Review_Movie_name']
 admin.site.register(Review_Model,review_Admin)
 
 

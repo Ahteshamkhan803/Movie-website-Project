@@ -22,13 +22,6 @@ class Platforms_model(models.Model):
     
 
 
-
-
-
-
-
-
-
   
 # class Review_Model(models.Model):
 #     # Review_Movie_name=models.ForeignKey(Movies_model,on_delete=models.CASCADE,related_name='Review')
@@ -93,26 +86,25 @@ class Movies_model(models.Model):
     
 
     def __str__(self):
-        return f" {self.Movie_Name} {self.Movie_Platform.Name_Platform}"
+        return self.Movie_Name
+    
+
+
 
 
 
 
 class Review_Model(models.Model):
-    Review_Movie_name=models.ForeignKey(Movies_model,on_delete=models.CASCADE,related_name='Name_of_movie')
-    # created_by_name= models.ForeignKey(User ,on_delete=models.CASCADE, related_name='created_by_name')
-    # Review= models.ForeignKey(Movies_model,on_delete=models.CASCADE,related_name='Review')
-    user= models.ForeignKey(User, on_delete=models.CASCADE)
-    Created_At= models.DateTimeField(auto_now_add=True)
-    Review_Text= models.CharField(max_length=200)
+    Review_Movie_name = models.ForeignKey(Movies_model, on_delete=models.CASCADE, related_name='Reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    Created_At = models.DateTimeField(auto_now_add=True)
+    Review_Text = models.CharField(max_length=200)
 
     class Meta:
-        unique_together= ('Review_Movie_name','user')
+        unique_together = ('Review_Movie_name', 'user')
 
     def __str__(self):
-        return f"Review for {self.Review_Movie_name.Movie_Name} by {self.user.username}"
-
-   
+        return f"Review for {self.Review_Movie_name.Movie_Name} by {self.user.username}"    
 
 
 

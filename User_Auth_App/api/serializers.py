@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
 
 
 
@@ -47,3 +48,44 @@ class Registr_Serializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+
+
+
+
+#login functionality
+
+
+# In User_Auth_App/api/serializers.py
+
+from rest_framework import serializers
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=150)
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+
+            if not user:
+                raise serializers.ValidationError('Unable to log in with provided credentials.')
+
+            if not user.is_active:
+                raise serializers.ValidationError('User account is disabled.')
+
+            refresh = RefreshToken.for_user(user)
+
+            return {
+                'username': user.username,
+                'access_token': str(refresh.access_token),
+                'refresh_token': str(refresh)
+            }
+        else:
+            raise serializers.ValidationError('Must include "username" and "password".')
